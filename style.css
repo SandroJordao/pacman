@@ -1,0 +1,948 @@
+@charset "utf-8";
+/*
+ * CSS Document
+ */
+
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('PressStart2P.eot');
+    src: url('PressStart2P.eot?#iefix') format('embedded-opentype'),
+        url('PressStart2P.woff2') format('woff2'),
+        url('PressStart2P.woff') format('woff'),
+        url('PressStart2P.ttf') format('truetype'),
+        url('PressStart2P.svg#PressStart2P') format('svg');
+    font-weight: 500;
+    font-style: normal;
+} 
+ 
+body {
+	background-color: #000;
+	color: #FFF;
+	font-family: 'Press Start 2P';
+}
+
+.TEXT {
+	font-size: 24px;
+	color: yellow;
+	text-align: center;
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: -56px;
+}
+
+.ghosts {
+	width: 570px;
+	height: 30px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(5, 32px);
+}
+
+.score {
+	margin: 0 auto;
+	width: 570px;
+	height: 60px;
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+}
+	
+.score > div {
+	text-align: center;
+	line-height: 30px;
+	font-size: 18px;
+}
+
+.main {
+	margin: 0 auto;
+	width: 570px;
+	height: 630px;
+	display: grid;
+	grid-template-columns: repeat(19, 30px);
+	grid-template-rows: repeat(21, 30px);
+}
+
+.main > div {
+	
+	text-align: center;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+
+	/*
+	border: 5px solid #1E85EE;
+	background-color: transparent;
+	*/
+}
+
+.T { border-top: 3px solid #1E85EE; }
+.R { border-right: 3px solid #1E85EE; }
+.B { border-bottom: 3px solid #1E85EE; }
+.L { border-left: 3px solid #1E85EE; }
+
+.RTL { border-top-left-radius: 50%; }
+.RTR { border-top-right-radius: 50%; }
+.RBR { border-bottom-right-radius: 50%; }
+.RBL { border-bottom-left-radius: 50%; }
+
+.TW { border-top: 5px solid #CCCCCC; }
+
+.P:before {
+	content: '';
+	display: block;
+	width: 6px;
+	height: 6px;
+	background-color: #CCCCCC;
+	margin: auto;
+	margin-top: 12px;
+	border-radius: 50%;
+}
+
+.W:before {
+	content: '';
+	display: block;
+	width: 10px;
+	height: 10px;
+	background-color: #FFFFFF;
+	margin: auto;
+	margin-top: 10px;
+	border-radius: 50%;
+	animation: powerup 2s infinite linear;
+}
+
+@keyframes powerup {
+	0% {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+	50% {
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	100% {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+}
+
+/*
+.gost-red {
+	width: 480px;
+	height: 480px;
+	display: grid;
+	grid-template-columns: repeat(14, 40px);
+	grid-template-rows: repeat(14, 40px);
+	grid-column-gap: 2px;
+	grid-row-gap: 2px;
+}
+*/
+
+/*
+.gost-red {
+	float: left;
+	width: 28px;
+	height: 28px;
+	display: grid;
+	grid-template-columns: repeat(14, 2px);
+	grid-template-rows: repeat(14, 2px);
+}
+
+.gost-red > div:nth-child(6),
+.gost-red > div:nth-child(7),
+.gost-red > div:nth-child(8),
+.gost-red > div:nth-child(9){
+    background: red;
+}
+
+.gost-red > div:nth-child(18),
+.gost-red > div:nth-child(19),
+.gost-red > div:nth-child(20),
+.gost-red > div:nth-child(21),
+.gost-red > div:nth-child(22),
+.gost-red > div:nth-child(23),
+.gost-red > div:nth-child(24),
+.gost-red > div:nth-child(25){
+    background: red;
+}
+
+.gost-red > div:nth-child(31),
+.gost-red > div:nth-child(32),
+.gost-red > div:nth-child(33),
+.gost-red > div:nth-child(34),
+.gost-red > div:nth-child(35),
+.gost-red > div:nth-child(36),
+.gost-red > div:nth-child(37),
+.gost-red > div:nth-child(38),
+.gost-red > div:nth-child(39),
+.gost-red > div:nth-child(40){
+    background: red;
+}
+
+.gost-red > div:nth-child(44),
+.gost-red > div:nth-child(47),
+.gost-red > div:nth-child(48),
+.gost-red > div:nth-child(49),
+.gost-red > div:nth-child(50),
+.gost-red > div:nth-child(53),
+.gost-red > div:nth-child(54),
+.gost-red > div:nth-child(55),
+.gost-red > div:nth-child(62),
+.gost-red > div:nth-child(63),
+.gost-red > div:nth-child(68),
+.gost-red > div:nth-child(69),
+.gost-red > div:nth-child(76),
+.gost-red > div:nth-child(77),
+.gost-red > div:nth-child(82),
+.gost-red > div:nth-child(83),
+.gost-red > div:nth-child(85),
+.gost-red > div:nth-child(90),
+.gost-red > div:nth-child(91),
+.gost-red > div:nth-child(96),
+.gost-red > div:nth-child(97),
+.gost-red > div:nth-child(98),
+.gost-red > div:nth-child(99),
+.gost-red > div:nth-child(100),
+.gost-red > div:nth-child(103),
+.gost-red > div:nth-child(104),
+.gost-red > div:nth-child(105),
+.gost-red > div:nth-child(106),
+.gost-red > div:nth-child(109),
+.gost-red > div:nth-child(110),
+.gost-red > div:nth-child(111),
+.gost-red > div:nth-child(112){
+    background: red;
+}
+
+.gost-red > div:nth-child(113),
+.gost-red > div:nth-child(114),
+.gost-red > div:nth-child(115),
+.gost-red > div:nth-child(116),
+.gost-red > div:nth-child(117),
+.gost-red > div:nth-child(118),
+.gost-red > div:nth-child(119),
+.gost-red > div:nth-child(120),
+.gost-red > div:nth-child(121),
+.gost-red > div:nth-child(122),
+.gost-red > div:nth-child(123),
+.gost-red > div:nth-child(124),
+.gost-red > div:nth-child(125),
+.gost-red > div:nth-child(126){
+    background: red;
+}
+
+.gost-red > div:nth-child(127),
+.gost-red > div:nth-child(128),
+.gost-red > div:nth-child(129),
+.gost-red > div:nth-child(130),
+.gost-red > div:nth-child(131),
+.gost-red > div:nth-child(132),
+.gost-red > div:nth-child(133),
+.gost-red > div:nth-child(134),
+.gost-red > div:nth-child(135),
+.gost-red > div:nth-child(136),
+.gost-red > div:nth-child(137),
+.gost-red > div:nth-child(138),
+.gost-red > div:nth-child(139),
+.gost-red > div:nth-child(140){
+    background: red;
+}
+
+.gost-red > div:nth-child(141),
+.gost-red > div:nth-child(142),
+.gost-red > div:nth-child(143),
+.gost-red > div:nth-child(144),
+.gost-red > div:nth-child(145),
+.gost-red > div:nth-child(146),
+.gost-red > div:nth-child(147),
+.gost-red > div:nth-child(148),
+.gost-red > div:nth-child(149),
+.gost-red > div:nth-child(150),
+.gost-red > div:nth-child(151),
+.gost-red > div:nth-child(152),
+.gost-red > div:nth-child(153),
+.gost-red > div:nth-child(154){
+    background: red;
+}
+
+.gost-red > div:nth-child(155),
+.gost-red > div:nth-child(156),
+.gost-red > div:nth-child(157),
+.gost-red > div:nth-child(158),
+.gost-red > div:nth-child(159),
+.gost-red > div:nth-child(160),
+.gost-red > div:nth-child(161),
+.gost-red > div:nth-child(162),
+.gost-red > div:nth-child(163),
+.gost-red > div:nth-child(164),
+.gost-red > div:nth-child(165),
+.gost-red > div:nth-child(166),
+.gost-red > div:nth-child(167),
+.gost-red > div:nth-child(168){
+    background: red;
+}
+
+.gost-red > div:nth-child(169),
+.gost-red > div:nth-child(170),
+.gost-red > div:nth-child(172),
+.gost-red > div:nth-child(173),
+.gost-red > div:nth-child(174),
+.gost-red > div:nth-child(177),
+.gost-red > div:nth-child(178),
+.gost-red > div:nth-child(179),
+.gost-red > div:nth-child(181),
+.gost-red > div:nth-child(182),
+.gost-red > div:nth-child(183),
+.gost-red > div:nth-child(187),
+.gost-red > div:nth-child(188),
+.gost-red > div:nth-child(191),
+.gost-red > div:nth-child(192),
+.gost-red > div:nth-child(196){
+    background: red;
+}
+
+.gost-red > div:nth-child(45),
+.gost-red > div:nth-child(46),
+.gost-red > div:nth-child(51),
+.gost-red > div:nth-child(52),
+.gost-red > div:nth-child(58),
+.gost-red > div:nth-child(59),
+.gost-red > div:nth-child(60),
+.gost-red > div:nth-child(61),
+.gost-red > div:nth-child(64),
+.gost-red > div:nth-child(65),
+.gost-red > div:nth-child(66),
+.gost-red > div:nth-child(67),
+.gost-red > div:nth-child(74),
+.gost-red > div:nth-child(75),
+.gost-red > div:nth-child(80),
+.gost-red > div:nth-child(81),
+.gost-red > div:nth-child(88),
+.gost-red > div:nth-child(89),
+.gost-red > div:nth-child(94),
+.gost-red > div:nth-child(95),
+.gost-red > div:nth-child(101),
+.gost-red > div:nth-child(102),
+.gost-red > div:nth-child(107),
+.gost-red > div:nth-child(108){
+    background: white;
+}
+
+
+
+
+
+.gost-yellow {
+	float: left;
+	width: 28px;
+	height: 28px;
+	display: grid;
+	grid-template-columns: repeat(14, 2px);
+	grid-template-rows: repeat(14, 2px);
+}
+
+.gost-yellow > div:nth-child(6),
+.gost-yellow > div:nth-child(7),
+.gost-yellow > div:nth-child(8),
+.gost-yellow > div:nth-child(9){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(18),
+.gost-yellow > div:nth-child(19),
+.gost-yellow > div:nth-child(20),
+.gost-yellow > div:nth-child(21),
+.gost-yellow > div:nth-child(22),
+.gost-yellow > div:nth-child(23),
+.gost-yellow > div:nth-child(24),
+.gost-yellow > div:nth-child(25){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(31),
+.gost-yellow > div:nth-child(32),
+.gost-yellow > div:nth-child(33),
+.gost-yellow > div:nth-child(34),
+.gost-yellow > div:nth-child(35),
+.gost-yellow > div:nth-child(36),
+.gost-yellow > div:nth-child(37),
+.gost-yellow > div:nth-child(38),
+.gost-yellow > div:nth-child(39),
+.gost-yellow > div:nth-child(40){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(44),
+.gost-yellow > div:nth-child(47),
+.gost-yellow > div:nth-child(48),
+.gost-yellow > div:nth-child(49),
+.gost-yellow > div:nth-child(50),
+.gost-yellow > div:nth-child(53),
+.gost-yellow > div:nth-child(54),
+.gost-yellow > div:nth-child(55),
+.gost-yellow > div:nth-child(62),
+.gost-yellow > div:nth-child(63),
+.gost-yellow > div:nth-child(68),
+.gost-yellow > div:nth-child(69),
+.gost-yellow > div:nth-child(76),
+.gost-yellow > div:nth-child(77),
+.gost-yellow > div:nth-child(82),
+.gost-yellow > div:nth-child(83),
+.gost-yellow > div:nth-child(85),
+.gost-yellow > div:nth-child(90),
+.gost-yellow > div:nth-child(91),
+.gost-yellow > div:nth-child(96),
+.gost-yellow > div:nth-child(97),
+.gost-yellow > div:nth-child(98),
+.gost-yellow > div:nth-child(99),
+.gost-yellow > div:nth-child(100),
+.gost-yellow > div:nth-child(103),
+.gost-yellow > div:nth-child(104),
+.gost-yellow > div:nth-child(105),
+.gost-yellow > div:nth-child(106),
+.gost-yellow > div:nth-child(109),
+.gost-yellow > div:nth-child(110),
+.gost-yellow > div:nth-child(111),
+.gost-yellow > div:nth-child(112){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(113),
+.gost-yellow > div:nth-child(114),
+.gost-yellow > div:nth-child(115),
+.gost-yellow > div:nth-child(116),
+.gost-yellow > div:nth-child(117),
+.gost-yellow > div:nth-child(118),
+.gost-yellow > div:nth-child(119),
+.gost-yellow > div:nth-child(120),
+.gost-yellow > div:nth-child(121),
+.gost-yellow > div:nth-child(122),
+.gost-yellow > div:nth-child(123),
+.gost-yellow > div:nth-child(124),
+.gost-yellow > div:nth-child(125),
+.gost-yellow > div:nth-child(126){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(127),
+.gost-yellow > div:nth-child(128),
+.gost-yellow > div:nth-child(129),
+.gost-yellow > div:nth-child(130),
+.gost-yellow > div:nth-child(131),
+.gost-yellow > div:nth-child(132),
+.gost-yellow > div:nth-child(133),
+.gost-yellow > div:nth-child(134),
+.gost-yellow > div:nth-child(135),
+.gost-yellow > div:nth-child(136),
+.gost-yellow > div:nth-child(137),
+.gost-yellow > div:nth-child(138),
+.gost-yellow > div:nth-child(139),
+.gost-yellow > div:nth-child(140){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(141),
+.gost-yellow > div:nth-child(142),
+.gost-yellow > div:nth-child(143),
+.gost-yellow > div:nth-child(144),
+.gost-yellow > div:nth-child(145),
+.gost-yellow > div:nth-child(146),
+.gost-yellow > div:nth-child(147),
+.gost-yellow > div:nth-child(148),
+.gost-yellow > div:nth-child(149),
+.gost-yellow > div:nth-child(150),
+.gost-yellow > div:nth-child(151),
+.gost-yellow > div:nth-child(152),
+.gost-yellow > div:nth-child(153),
+.gost-yellow > div:nth-child(154){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(155),
+.gost-yellow > div:nth-child(156),
+.gost-yellow > div:nth-child(157),
+.gost-yellow > div:nth-child(158),
+.gost-yellow > div:nth-child(159),
+.gost-yellow > div:nth-child(160),
+.gost-yellow > div:nth-child(161),
+.gost-yellow > div:nth-child(162),
+.gost-yellow > div:nth-child(163),
+.gost-yellow > div:nth-child(164),
+.gost-yellow > div:nth-child(165),
+.gost-yellow > div:nth-child(166),
+.gost-yellow > div:nth-child(167),
+.gost-yellow > div:nth-child(168){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(169),
+.gost-yellow > div:nth-child(170),
+.gost-yellow > div:nth-child(172),
+.gost-yellow > div:nth-child(173),
+.gost-yellow > div:nth-child(174),
+.gost-yellow > div:nth-child(177),
+.gost-yellow > div:nth-child(178),
+.gost-yellow > div:nth-child(179),
+.gost-yellow > div:nth-child(181),
+.gost-yellow > div:nth-child(182),
+.gost-yellow > div:nth-child(183),
+.gost-yellow > div:nth-child(187),
+.gost-yellow > div:nth-child(188),
+.gost-yellow > div:nth-child(191),
+.gost-yellow > div:nth-child(192),
+.gost-yellow > div:nth-child(196){
+    background: yellow;
+}
+
+.gost-yellow > div:nth-child(45),
+.gost-yellow > div:nth-child(46),
+.gost-yellow > div:nth-child(51),
+.gost-yellow > div:nth-child(52),
+.gost-yellow > div:nth-child(58),
+.gost-yellow > div:nth-child(59),
+.gost-yellow > div:nth-child(60),
+.gost-yellow > div:nth-child(61),
+.gost-yellow > div:nth-child(64),
+.gost-yellow > div:nth-child(65),
+.gost-yellow > div:nth-child(66),
+.gost-yellow > div:nth-child(67),
+.gost-yellow > div:nth-child(74),
+.gost-yellow > div:nth-child(75),
+.gost-yellow > div:nth-child(80),
+.gost-yellow > div:nth-child(81),
+.gost-yellow > div:nth-child(88),
+.gost-yellow > div:nth-child(89),
+.gost-yellow > div:nth-child(94),
+.gost-yellow > div:nth-child(95),
+.gost-yellow > div:nth-child(101),
+.gost-yellow > div:nth-child(102),
+.gost-yellow > div:nth-child(107),
+.gost-yellow > div:nth-child(108){
+    background: white;
+}
+
+
+
+
+
+
+.gost-blue {
+	float: left;
+	width: 28px;
+	height: 28px;
+	display: grid;
+	grid-template-columns: repeat(14, 2px);
+	grid-template-rows: repeat(14, 2px);
+}
+
+.gost-blue > div:nth-child(6),
+.gost-blue > div:nth-child(7),
+.gost-blue > div:nth-child(8),
+.gost-blue > div:nth-child(9){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(18),
+.gost-blue > div:nth-child(19),
+.gost-blue > div:nth-child(20),
+.gost-blue > div:nth-child(21),
+.gost-blue > div:nth-child(22),
+.gost-blue > div:nth-child(23),
+.gost-blue > div:nth-child(24),
+.gost-blue > div:nth-child(25){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(31),
+.gost-blue > div:nth-child(32),
+.gost-blue > div:nth-child(33),
+.gost-blue > div:nth-child(34),
+.gost-blue > div:nth-child(35),
+.gost-blue > div:nth-child(36),
+.gost-blue > div:nth-child(37),
+.gost-blue > div:nth-child(38),
+.gost-blue > div:nth-child(39),
+.gost-blue > div:nth-child(40){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(44),
+.gost-blue > div:nth-child(47),
+.gost-blue > div:nth-child(48),
+.gost-blue > div:nth-child(49),
+.gost-blue > div:nth-child(50),
+.gost-blue > div:nth-child(53),
+.gost-blue > div:nth-child(54),
+.gost-blue > div:nth-child(55),
+.gost-blue > div:nth-child(62),
+.gost-blue > div:nth-child(63),
+.gost-blue > div:nth-child(68),
+.gost-blue > div:nth-child(69),
+.gost-blue > div:nth-child(76),
+.gost-blue > div:nth-child(77),
+.gost-blue > div:nth-child(82),
+.gost-blue > div:nth-child(83),
+.gost-blue > div:nth-child(85),
+.gost-blue > div:nth-child(90),
+.gost-blue > div:nth-child(91),
+.gost-blue > div:nth-child(96),
+.gost-blue > div:nth-child(97),
+.gost-blue > div:nth-child(98),
+.gost-blue > div:nth-child(99),
+.gost-blue > div:nth-child(100),
+.gost-blue > div:nth-child(103),
+.gost-blue > div:nth-child(104),
+.gost-blue > div:nth-child(105),
+.gost-blue > div:nth-child(106),
+.gost-blue > div:nth-child(109),
+.gost-blue > div:nth-child(110),
+.gost-blue > div:nth-child(111),
+.gost-blue > div:nth-child(112){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(113),
+.gost-blue > div:nth-child(114),
+.gost-blue > div:nth-child(115),
+.gost-blue > div:nth-child(116),
+.gost-blue > div:nth-child(117),
+.gost-blue > div:nth-child(118),
+.gost-blue > div:nth-child(119),
+.gost-blue > div:nth-child(120),
+.gost-blue > div:nth-child(121),
+.gost-blue > div:nth-child(122),
+.gost-blue > div:nth-child(123),
+.gost-blue > div:nth-child(124),
+.gost-blue > div:nth-child(125),
+.gost-blue > div:nth-child(126){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(127),
+.gost-blue > div:nth-child(128),
+.gost-blue > div:nth-child(129),
+.gost-blue > div:nth-child(130),
+.gost-blue > div:nth-child(131),
+.gost-blue > div:nth-child(132),
+.gost-blue > div:nth-child(133),
+.gost-blue > div:nth-child(134),
+.gost-blue > div:nth-child(135),
+.gost-blue > div:nth-child(136),
+.gost-blue > div:nth-child(137),
+.gost-blue > div:nth-child(138),
+.gost-blue > div:nth-child(139),
+.gost-blue > div:nth-child(140){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(141),
+.gost-blue > div:nth-child(142),
+.gost-blue > div:nth-child(143),
+.gost-blue > div:nth-child(144),
+.gost-blue > div:nth-child(145),
+.gost-blue > div:nth-child(146),
+.gost-blue > div:nth-child(147),
+.gost-blue > div:nth-child(148),
+.gost-blue > div:nth-child(149),
+.gost-blue > div:nth-child(150),
+.gost-blue > div:nth-child(151),
+.gost-blue > div:nth-child(152),
+.gost-blue > div:nth-child(153),
+.gost-blue > div:nth-child(154){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(155),
+.gost-blue > div:nth-child(156),
+.gost-blue > div:nth-child(157),
+.gost-blue > div:nth-child(158),
+.gost-blue > div:nth-child(159),
+.gost-blue > div:nth-child(160),
+.gost-blue > div:nth-child(161),
+.gost-blue > div:nth-child(162),
+.gost-blue > div:nth-child(163),
+.gost-blue > div:nth-child(164),
+.gost-blue > div:nth-child(165),
+.gost-blue > div:nth-child(166),
+.gost-blue > div:nth-child(167),
+.gost-blue > div:nth-child(168){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(169),
+.gost-blue > div:nth-child(170),
+.gost-blue > div:nth-child(172),
+.gost-blue > div:nth-child(173),
+.gost-blue > div:nth-child(174),
+.gost-blue > div:nth-child(177),
+.gost-blue > div:nth-child(178),
+.gost-blue > div:nth-child(179),
+.gost-blue > div:nth-child(181),
+.gost-blue > div:nth-child(182),
+.gost-blue > div:nth-child(183),
+.gost-blue > div:nth-child(187),
+.gost-blue > div:nth-child(188),
+.gost-blue > div:nth-child(191),
+.gost-blue > div:nth-child(192),
+.gost-blue > div:nth-child(196){
+    background: blue;
+}
+
+.gost-blue > div:nth-child(45),
+.gost-blue > div:nth-child(46),
+.gost-blue > div:nth-child(51),
+.gost-blue > div:nth-child(52),
+.gost-blue > div:nth-child(58),
+.gost-blue > div:nth-child(59),
+.gost-blue > div:nth-child(60),
+.gost-blue > div:nth-child(61),
+.gost-blue > div:nth-child(64),
+.gost-blue > div:nth-child(65),
+.gost-blue > div:nth-child(66),
+.gost-blue > div:nth-child(67),
+.gost-blue > div:nth-child(74),
+.gost-blue > div:nth-child(75),
+.gost-blue > div:nth-child(80),
+.gost-blue > div:nth-child(81),
+.gost-blue > div:nth-child(88),
+.gost-blue > div:nth-child(89),
+.gost-blue > div:nth-child(94),
+.gost-blue > div:nth-child(95),
+.gost-blue > div:nth-child(101),
+.gost-blue > div:nth-child(102),
+.gost-blue > div:nth-child(107),
+.gost-blue > div:nth-child(108){
+    background: white;
+}
+
+
+
+
+
+.gost-pink {
+	float: left;
+	width: 28px;
+	height: 28px;
+	display: grid;
+	grid-template-columns: repeat(14, 2px);
+	grid-template-rows: repeat(14, 2px);
+}
+
+.gost-pink > div:nth-child(6),
+.gost-pink > div:nth-child(7),
+.gost-pink > div:nth-child(8),
+.gost-pink > div:nth-child(9){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(18),
+.gost-pink > div:nth-child(19),
+.gost-pink > div:nth-child(20),
+.gost-pink > div:nth-child(21),
+.gost-pink > div:nth-child(22),
+.gost-pink > div:nth-child(23),
+.gost-pink > div:nth-child(24),
+.gost-pink > div:nth-child(25){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(31),
+.gost-pink > div:nth-child(32),
+.gost-pink > div:nth-child(33),
+.gost-pink > div:nth-child(34),
+.gost-pink > div:nth-child(35),
+.gost-pink > div:nth-child(36),
+.gost-pink > div:nth-child(37),
+.gost-pink > div:nth-child(38),
+.gost-pink > div:nth-child(39),
+.gost-pink > div:nth-child(40){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(44),
+.gost-pink > div:nth-child(47),
+.gost-pink > div:nth-child(48),
+.gost-pink > div:nth-child(49),
+.gost-pink > div:nth-child(50),
+.gost-pink > div:nth-child(53),
+.gost-pink > div:nth-child(54),
+.gost-pink > div:nth-child(55),
+.gost-pink > div:nth-child(62),
+.gost-pink > div:nth-child(63),
+.gost-pink > div:nth-child(68),
+.gost-pink > div:nth-child(69),
+.gost-pink > div:nth-child(76),
+.gost-pink > div:nth-child(77),
+.gost-pink > div:nth-child(82),
+.gost-pink > div:nth-child(83),
+.gost-pink > div:nth-child(85),
+.gost-pink > div:nth-child(90),
+.gost-pink > div:nth-child(91),
+.gost-pink > div:nth-child(96),
+.gost-pink > div:nth-child(97),
+.gost-pink > div:nth-child(98),
+.gost-pink > div:nth-child(99),
+.gost-pink > div:nth-child(100),
+.gost-pink > div:nth-child(103),
+.gost-pink > div:nth-child(104),
+.gost-pink > div:nth-child(105),
+.gost-pink > div:nth-child(106),
+.gost-pink > div:nth-child(109),
+.gost-pink > div:nth-child(110),
+.gost-pink > div:nth-child(111),
+.gost-pink > div:nth-child(112){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(113),
+.gost-pink > div:nth-child(114),
+.gost-pink > div:nth-child(115),
+.gost-pink > div:nth-child(116),
+.gost-pink > div:nth-child(117),
+.gost-pink > div:nth-child(118),
+.gost-pink > div:nth-child(119),
+.gost-pink > div:nth-child(120),
+.gost-pink > div:nth-child(121),
+.gost-pink > div:nth-child(122),
+.gost-pink > div:nth-child(123),
+.gost-pink > div:nth-child(124),
+.gost-pink > div:nth-child(125),
+.gost-pink > div:nth-child(126){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(127),
+.gost-pink > div:nth-child(128),
+.gost-pink > div:nth-child(129),
+.gost-pink > div:nth-child(130),
+.gost-pink > div:nth-child(131),
+.gost-pink > div:nth-child(132),
+.gost-pink > div:nth-child(133),
+.gost-pink > div:nth-child(134),
+.gost-pink > div:nth-child(135),
+.gost-pink > div:nth-child(136),
+.gost-pink > div:nth-child(137),
+.gost-pink > div:nth-child(138),
+.gost-pink > div:nth-child(139),
+.gost-pink > div:nth-child(140){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(141),
+.gost-pink > div:nth-child(142),
+.gost-pink > div:nth-child(143),
+.gost-pink > div:nth-child(144),
+.gost-pink > div:nth-child(145),
+.gost-pink > div:nth-child(146),
+.gost-pink > div:nth-child(147),
+.gost-pink > div:nth-child(148),
+.gost-pink > div:nth-child(149),
+.gost-pink > div:nth-child(150),
+.gost-pink > div:nth-child(151),
+.gost-pink > div:nth-child(152),
+.gost-pink > div:nth-child(153),
+.gost-pink > div:nth-child(154){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(155),
+.gost-pink > div:nth-child(156),
+.gost-pink > div:nth-child(157),
+.gost-pink > div:nth-child(158),
+.gost-pink > div:nth-child(159),
+.gost-pink > div:nth-child(160),
+.gost-pink > div:nth-child(161),
+.gost-pink > div:nth-child(162),
+.gost-pink > div:nth-child(163),
+.gost-pink > div:nth-child(164),
+.gost-pink > div:nth-child(165),
+.gost-pink > div:nth-child(166),
+.gost-pink > div:nth-child(167),
+.gost-pink > div:nth-child(168){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(169),
+.gost-pink > div:nth-child(170),
+.gost-pink > div:nth-child(172),
+.gost-pink > div:nth-child(173),
+.gost-pink > div:nth-child(174),
+.gost-pink > div:nth-child(177),
+.gost-pink > div:nth-child(178),
+.gost-pink > div:nth-child(179),
+.gost-pink > div:nth-child(181),
+.gost-pink > div:nth-child(182),
+.gost-pink > div:nth-child(183),
+.gost-pink > div:nth-child(187),
+.gost-pink > div:nth-child(188),
+.gost-pink > div:nth-child(191),
+.gost-pink > div:nth-child(192),
+.gost-pink > div:nth-child(196){
+    background: pink;
+}
+
+.gost-pink > div:nth-child(45),
+.gost-pink > div:nth-child(46),
+.gost-pink > div:nth-child(51),
+.gost-pink > div:nth-child(52),
+.gost-pink > div:nth-child(58),
+.gost-pink > div:nth-child(59),
+.gost-pink > div:nth-child(60),
+.gost-pink > div:nth-child(61),
+.gost-pink > div:nth-child(64),
+.gost-pink > div:nth-child(65),
+.gost-pink > div:nth-child(66),
+.gost-pink > div:nth-child(67),
+.gost-pink > div:nth-child(74),
+.gost-pink > div:nth-child(75),
+.gost-pink > div:nth-child(80),
+.gost-pink > div:nth-child(81),
+.gost-pink > div:nth-child(88),
+.gost-pink > div:nth-child(89),
+.gost-pink > div:nth-child(94),
+.gost-pink > div:nth-child(95),
+.gost-pink > div:nth-child(101),
+.gost-pink > div:nth-child(102),
+.gost-pink > div:nth-child(107),
+.gost-pink > div:nth-child(108){
+    background: white;
+}
+*/
+.b-b {
+	border-top: 5px solid #1E85EE;
+}
+
+.b-tb {
+	border-top: 5px solid #1E85EE;
+	border-bottom: 5px solid #1E85EE;
+}
+
+.b-tl {
+	border-top: 5px solid #1E85EE;
+	border-left: 5px solid #1E85EE;
+}
+
+.b-tr {
+	border-top: 5px solid #1E85EE;
+	border-right: 5px solid #1E85EE;
+}
+
+.b-l {
+	border-left: 5px solid #1E85EE;
+}
+
+.b-r {
+	border-right: 5px solid #1E85EE;
+}
+
+.b-lr {
+	border-left: 5px solid #1E85EE;
+	border-right: 5px solid #1E85EE;
+}
+
+.r-1 {
+	border-radius: 50% 0 0 0;
+}
+
+.r-2 {
+	border-radius: 0 50% 0 0;
+}

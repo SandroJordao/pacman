@@ -1,0 +1,193 @@
+@charset "utf-8";
+/*
+ * CSS Document
+ */
+ 
+.pacman {
+	/* float: left; */
+	position: absolute;
+	width: 28px;
+	height: 28px;
+	margin-top: 1px;
+	margin-left: 1px;
+	display: grid;
+	grid-template-columns: repeat(14, 2px);
+	grid-template-rows: repeat(14, 2px);
+}
+
+.pacman > div:nth-child(6),
+.pacman > div:nth-child(7),
+.pacman > div:nth-child(8),
+.pacman > div:nth-child(9),
+.pacman > div:nth-child(10),
+.pacman > div:nth-child(18),
+.pacman > div:nth-child(19),
+.pacman > div:nth-child(20),
+.pacman > div:nth-child(21),
+.pacman > div:nth-child(22),
+.pacman > div:nth-child(23),
+.pacman > div:nth-child(24),
+.pacman > div:nth-child(25),
+.pacman > div:nth-child(26),
+.pacman > div:nth-child(31),
+.pacman > div:nth-child(32),
+.pacman > div:nth-child(33),
+.pacman > div:nth-child(34),
+.pacman > div:nth-child(35),
+.pacman > div:nth-child(36),
+/* .pacman > div:nth-child(37), */
+.pacman > div:nth-child(38),
+.pacman > div:nth-child(39),
+.pacman > div:nth-child(40),
+.pacman > div:nth-child(41),
+.pacman > div:nth-child(45),
+.pacman > div:nth-child(46),
+.pacman > div:nth-child(47),
+.pacman > div:nth-child(48),
+.pacman > div:nth-child(49),
+.pacman > div:nth-child(50),
+.pacman > div:nth-child(51),
+.pacman > div:nth-child(52),
+.pacman > div:nth-child(53),
+.pacman > div:nth-child(54),
+.pacman > div:nth-child(55),
+.pacman > div:nth-child(58),
+.pacman > div:nth-child(59),
+.pacman > div:nth-child(60),
+.pacman > div:nth-child(61),
+.pacman > div:nth-child(62),
+.pacman > div:nth-child(63),
+.pacman > div:nth-child(64),
+.pacman > div:nth-child(65),
+.pacman > div:nth-child(66),
+.pacman > div:nth-child(67),
+.pacman > div:nth-child(72),
+.pacman > div:nth-child(73),
+.pacman > div:nth-child(74),
+.pacman > div:nth-child(75),
+.pacman > div:nth-child(76),
+.pacman > div:nth-child(77),
+.pacman > div:nth-child(78),
+.pacman > div:nth-child(86),
+.pacman > div:nth-child(87),
+.pacman > div:nth-child(88),
+.pacman > div:nth-child(89),
+.pacman > div:nth-child(100),
+.pacman > div:nth-child(101),
+.pacman > div:nth-child(102),
+.pacman > div:nth-child(103),
+.pacman > div:nth-child(104),
+.pacman > div:nth-child(105),
+.pacman > div:nth-child(106),
+.pacman > div:nth-child(114),
+.pacman > div:nth-child(115),
+.pacman > div:nth-child(116),
+.pacman > div:nth-child(117),
+.pacman > div:nth-child(118),
+.pacman > div:nth-child(119),
+.pacman > div:nth-child(120),
+.pacman > div:nth-child(121),
+.pacman > div:nth-child(122),
+.pacman > div:nth-child(123),
+.pacman > div:nth-child(129),
+.pacman > div:nth-child(130),
+.pacman > div:nth-child(131),
+.pacman > div:nth-child(132),
+.pacman > div:nth-child(133),
+.pacman > div:nth-child(134),
+.pacman > div:nth-child(135),
+.pacman > div:nth-child(136),
+.pacman > div:nth-child(137),
+.pacman > div:nth-child(138),
+.pacman > div:nth-child(139),
+.pacman > div:nth-child(143),
+.pacman > div:nth-child(144),
+.pacman > div:nth-child(145),
+.pacman > div:nth-child(146),
+.pacman > div:nth-child(147),
+.pacman > div:nth-child(148),
+.pacman > div:nth-child(149),
+.pacman > div:nth-child(150),
+.pacman > div:nth-child(151),
+.pacman > div:nth-child(152),
+.pacman > div:nth-child(153),
+.pacman > div:nth-child(159),
+.pacman > div:nth-child(160),
+.pacman > div:nth-child(161),
+.pacman > div:nth-child(162),
+.pacman > div:nth-child(163),
+.pacman > div:nth-child(164),
+.pacman > div:nth-child(165),
+.pacman > div:nth-child(166),
+.pacman > div:nth-child(174),
+.pacman > div:nth-child(175),
+.pacman > div:nth-child(176),
+.pacman > div:nth-child(177),
+.pacman > div:nth-child(178) {
+    background: #FFC100;
+}
+
+
+
+.pacman > div:nth-child(68),
+.pacman > div:nth-child(69),
+.pacman > div:nth-child(70),
+
+.pacman > div:nth-child(79),
+.pacman > div:nth-child(80),
+.pacman > div:nth-child(81),
+.pacman > div:nth-child(82),
+.pacman > div:nth-child(83),
+.pacman > div:nth-child(84),
+/*
+.pacman > div:nth-child(90),
+.pacman > div:nth-child(91),
+.pacman > div:nth-child(92),
+.pacman > div:nth-child(93),
+.pacman > div:nth-child(94),
+.pacman > div:nth-child(95),
+.pacman > div:nth-child(96),
+.pacman > div:nth-child(97),
+.pacman > div:nth-child(98),
+*/
+.pacman > div:nth-child(107),
+.pacman > div:nth-child(108),
+.pacman > div:nth-child(109),
+.pacman > div:nth-child(110),
+.pacman > div:nth-child(111),
+.pacman > div:nth-child(112),
+
+.pacman > div:nth-child(124),
+.pacman > div:nth-child(125),
+.pacman > div:nth-child(126) {
+	background: #FFC100;
+	animation: snap 1s infinite linear;
+}
+
+
+@keyframes snap {
+	0% {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+	24% {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+	25% {
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	74% {
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	75% {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+	100% {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+}
