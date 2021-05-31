@@ -116,7 +116,7 @@ function config_init()
 	var updates = 30;
 	
 	// Loop
-	setInterval(loop, parseInt(1000 / updates));
+	// setInterval(loop, parseInt(1000 / updates));
 }
 
 /**
