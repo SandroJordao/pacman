@@ -1,2 +1,3 @@
-# pacman
-Projeto em HTML, CSS e Javascript.
+# Pacman
+
+Projeto de criação do jogo em HTML, CSS e Javascript.
