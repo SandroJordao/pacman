@@ -8,11 +8,27 @@
 	position: absolute;
 	width: 28px;
 	height: 28px;
-	margin-top: 1px;
-	margin-left: 1px;
+	padding-top: 1px;
+	padding-left: 1px;
 	display: grid;
 	grid-template-columns: repeat(14, 2px);
 	grid-template-rows: repeat(14, 2px);
+}
+
+.pacman.left {
+	transform: scaleX(-1);
+}
+
+.pacman.right {
+	transform: scaleX(1);
+}
+
+.pacman.up {
+	rotate: 270deg;
+}
+
+.pacman.down {
+	rotate: 90deg;
 }
 
 .pacman > div:nth-child(6),
