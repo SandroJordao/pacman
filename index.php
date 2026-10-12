@@ -13,17 +13,24 @@
 		<link rel="stylesheet" type="text/css" href="pacman.css" media="screen">
 		<script type="text/javascript" src="sound.js" defer></script>
 		<script type="text/javascript" src="main.js" defer></script>
+		<script type="text/javascript" src="pacman-ai.js" defer></script>
+		<script type="text/javascript" src="inverse.js" defer></script>
 		<script type="text/javascript" src="screens.js" defer></script>
 	</head>
 	<body>
 		<section class="home" id="home" aria-labelledby="home-title">
-			<h1 class="home-title" id="home-title">PAC-MAN</h1>
-			<p class="home-tagline">Coma todas as pastilhas e fuja dos fantasmas!</p>
-			<div class="hero" aria-hidden="true">
+			<div class="home-heading">
+				<h1 class="home-title" id="home-title">PAC-MAN</h1>
+				<div class="home-badge" id="home-badge" hidden>INVERSO</div>
+			</div>
+			<p class="home-tagline" id="home-tagline">Coma todas as pastilhas e fuja dos fantasmas!</p>
+			<div class="hero" id="hero" aria-hidden="true">
 				<div class="hero-track" id="hero-track"></div>
 			</div>
 			<nav class="menu" id="menu" aria-label="Menu">
 				<button type="button" class="menu-item" id="menu-play">JOGAR</button>
+				<button type="button" class="menu-item" id="menu-inverse">MODO INVERSO</button>
+				<button type="button" class="menu-item" id="menu-demo">IA VS IA</button>
 				<button type="button" class="menu-item" id="menu-help">INSTRUÇÕES</button>
 				<button type="button" class="menu-item" id="menu-ranking">RANKING</button>
 				<button type="button" class="menu-item" id="menu-sound" aria-pressed="true">SOM: <span id="sound-state">LIGADO</span></button>
@@ -37,7 +44,7 @@
 		<div class="screen-game" id="screen-game" hidden>
 			<div class="game" id="game">
 				<div class="score">
-					<div>1UP</div>
+					<div id="label-1up">1UP</div>
 					<div>HIGH SCORE</div>
 					<div>
 						<button type="button" class="pause-btn" id="btn-pause" aria-label="Pausar (Espaço)" title="Pausar (Espaço)">
@@ -56,6 +63,7 @@
 
 				<div class="footer">
 					<div id="lives"></div>
+					<button type="button" class="ability" id="ability" title="Usar habilidade (E)" hidden></button>
 					<div id="level"></div>
 				</div>
 			</div>

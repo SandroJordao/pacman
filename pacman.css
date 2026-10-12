@@ -233,3 +233,8 @@
 .pacman.life > div {
 	animation: none;
 }
+
+/* Lento (habilidade do Inky) */
+.pacman.slowed {
+	filter: hue-rotate(170deg) saturate(1.4);
+}

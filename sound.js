@@ -137,6 +137,27 @@ const Sound = (function ()
 			tone('triangle', 400, 80, 2.0, 0.1, 0.4);
 		},
 
+		// Pinky: marcou o destino do teletransporte
+		teleport: function ()
+		{
+			for (let i = 0; i < 3; i++) {
+				tone('square', 300, 1200, i * 0.12, 0.1, 0.15);
+			}
+		},
+
+		// Pinky: apareceu no destino
+		appear: function ()
+		{
+			tone('triangle', 1200, 300, 0, 0.2, 0.3);
+		},
+
+		// Inky: deixou o Pacman lento
+		slow: function ()
+		{
+			tone('square', 700, 150, 0, 0.6, 0.15);
+			tone('triangle', 350, 75, 0, 0.6, 0.3);
+		},
+
 		extraLife: function ()
 		{
 			for (let i = 0; i < 4; i++) {

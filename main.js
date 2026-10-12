@@ -116,6 +116,17 @@ let gameOverShown;
 // false na tela inicial, na pausa e com janelas abertas: o jogo fica congelado
 let running = false;
 
+// Personagem que recebe os comandos do jogador (teclado / toque); null na demonstração
+let player;
+
+// 'classic': o jogador controla o Pacman
+// 'inverse': o jogador controla um fantasma contra o Pacman da IA (inverse.js)
+let gameMode = 'classic';
+
+// IA vs IA (demonstração) nos dois modos: o Pacman é a IA (pacman-ai.js) e,
+// no inverso, um robô controla o fantasma (inverse.js). Ignora os comandos.
+let demo = false;
+
 /**
  * Cria um sprite em pixel art (14 x 14 divs coloridas pelo CSS)
 **/
@@ -268,9 +279,15 @@ function stepsFor(entity, speed)
 	return steps;
 }
 
-function pacmanSpeed()
+function pacmanBaseSpeed()
 {
 	return 2 + Math.min(level - 1, 4) * 0.1;
+}
+
+// Com a habilidade do Inky o Pacman fica lento
+function pacmanSpeed()
+{
+	return pacman.slowTimer > 0 ? pacmanBaseSpeed() * SLOW_FACTOR : pacmanBaseSpeed();
 }
 
 function ghostSpeed(ghost)
@@ -278,6 +295,11 @@ function ghostSpeed(ghost)
 	if (ghost.state == 'eaten' || ghost.state == 'entering') return 4;
 	if (ghost.state == 'house' || ghost.state == 'leaving') return 1;
 	if (ghost.frightened) return 1;
+
+	// Fantasma do jogador acompanha o Pacman (o Blinky é mais rápido)
+	if (ghost.controller == 'player') {
+		return pacmanBaseSpeed() * (ghost.id == 'blinky' ? BLINKY_BOOST : 1);
+	}
 
 	return 1.8 + Math.min(level - 1, 4) * 0.1;
 }
@@ -288,8 +310,51 @@ function frightenedDuration()
 }
 
 /**
+ * Movimento por comando (entity.next): usado por quem o jogador controla.
+ * Anda 1 pixel; retorna false se ficou parado contra a parede.
+ * onCenter(tile) é chamado ao passar pelo centro de um tile.
+**/
+function stepControlled(entity, onCenter)
+{
+	// Inverter o sentido é permitido a qualquer momento
+	if (entity.next && entity.next == OPPOSITE[entity.dir]) {
+		entity.dir = entity.next;
+	}
+
+	if (isCentered(entity)) {
+		var tile = tileOf(entity);
+
+		if (onCenter) {
+			onCenter(tile);
+		}
+
+		// Curva guardada: vira assim que o caminho estiver livre
+		if (entity.next && canWalk(tile.col + DIRS[entity.next].x, tile.row + DIRS[entity.next].y)) {
+			entity.dir = entity.next;
+		}
+
+		if (!entity.dir || !canWalk(tile.col + DIRS[entity.dir].x, tile.row + DIRS[entity.dir].y)) {
+			return false;
+		}
+	}
+
+	step(entity, entity.dir);
+
+	return true;
+}
+
+/**
  * Pacman
 **/
+function pacmanCenter(tile)
+{
+	eat(tile.col, tile.row);
+
+	if (pacman.controller == 'ai') {
+		pacman.next = PacmanAI.decide(tile);
+	}
+}
+
 function movePacman()
 {
 	var steps = stepsFor(pacman, pacmanSpeed());
@@ -297,28 +362,11 @@ function movePacman()
 	pacman.moving = steps == 0 ? pacman.moving : false;
 
 	while (steps-- > 0) {
-		// Inverter o sentido é permitido a qualquer momento
-		if (pacman.next && pacman.next == OPPOSITE[pacman.dir]) {
-			pacman.dir = pacman.next;
+		if (!stepControlled(pacman, pacmanCenter)) {
+			pacman.moving = false;
+			break;
 		}
 
-		if (isCentered(pacman)) {
-			var tile = tileOf(pacman);
-
-			eat(tile.col, tile.row);
-
-			// Curva guardada: vira assim que o caminho estiver livre
-			if (pacman.next && canWalk(tile.col + DIRS[pacman.next].x, tile.row + DIRS[pacman.next].y)) {
-				pacman.dir = pacman.next;
-			}
-
-			if (!pacman.dir || !canWalk(tile.col + DIRS[pacman.dir].x, tile.row + DIRS[pacman.dir].y)) {
-				pacman.moving = false;
-				break;
-			}
-		}
-
-		step(pacman, pacman.dir);
 		pacman.moving = true;
 	}
 }
@@ -337,15 +385,18 @@ function eat(col, row)
 
 	Sound.play('chomp');
 
-	if (tile == '.') {
-		addScore(10);
-	} else {
-		addScore(50);
+	// No modo inverso os pontos são do fantasma, não do Pacman
+	if (!isInverse()) {
+		addScore(tile == '.' ? 10 : 50);
+	}
+
+	if (tile == 'o') {
 		frighten();
 	}
 
+	// Labirinto limpo: no modo inverso é a derrota do jogador
 	if (dotsLeft == 0) {
-		setPhase('levelclear', 2);
+		setPhase(isInverse() ? 'gameover' : 'levelclear', 2);
 	}
 }
 
@@ -353,14 +404,15 @@ function addScore(points)
 {
 	score += points;
 
-	if (!extraLifeGiven && score >= EXTRA_LIFE_SCORE) {
+	if (!extraLifeGiven && score >= EXTRA_LIFE_SCORE && !isInverse()) {
 		extraLifeGiven = true;
 		lives++;
 		renderLives();
 		Sound.play('extraLife');
 	}
 
-	if (score > highscore) {
+	// Recorde só vale para partidas do jogador
+	if (score > highscore && !demo) {
 		highscore = score;
 		saveHighscore();
 	}
@@ -381,7 +433,8 @@ function frighten()
 
 		ghost.frightened = true;
 
-		if (ghost.state == 'active') {
+		// Os da IA dão meia-volta; o do jogador segue o comando
+		if (ghost.state == 'active' && ghost.controller == 'ai') {
 			ghost.dir = OPPOSITE[ghost.dir];
 		}
 	});
@@ -503,6 +556,12 @@ function moveGhost(ghost)
 				break;
 
 			default: // active / eaten
+				// Fantasma do jogador (vivo): anda por comando, como o Pacman
+				if (ghost.controller == 'player' && ghost.state == 'active') {
+					stepControlled(ghost);
+					break;
+				}
+
 				if (isCentered(ghost)) {
 					var tile = tileOf(ghost);
 
@@ -538,9 +597,9 @@ function updateModes()
 		modeTimer = 0;
 		modeIndex++;
 
-		// Na troca de modo os fantasmas dão meia-volta
+		// Na troca de modo os fantasmas da IA dão meia-volta
 		ghosts.forEach(function (ghost) {
-			if (ghost.state == 'active') {
+			if (ghost.state == 'active' && ghost.controller == 'ai') {
 				ghost.dir = OPPOSITE[ghost.dir];
 			}
 		});
@@ -561,12 +620,20 @@ function checkCollisions()
 		if (ghost.frightened) {
 			ghost.frightened = false;
 			ghost.state = 'eaten';
-			addScore(200 * Math.pow(2, ghostCombo));
-			ghostCombo++;
 			Sound.play('eatGhost');
+
+			if (!isInverse()) {
+				addScore(200 * Math.pow(2, ghostCombo));
+				ghostCombo++;
+			}
 		} else if (phase == 'playing') {
 			setPhase('dying', 2);
 			Sound.play('death');
+
+			// Modo inverso: o fantasma do jogador capturou o Pacman
+			if (isInverse()) {
+				addInverseScore(CAPTURE_POINTS);
+			}
 		}
 	});
 }
@@ -584,7 +651,7 @@ function resetRound()
 {
 	var start = findStart();
 
-	pacman = { x: start.col * TILE, y: start.row * TILE, dir: null, next: null, acc: 0, moving: false };
+	pacman = { x: start.col * TILE, y: start.row * TILE, dir: null, next: null, acc: 0, moving: false, slowTimer: 0, controller: gameMode == 'classic' && !demo ? 'player' : 'ai' };
 
 	ghosts = GHOSTS.map(function (config, i) {
 		var inside = config.row == HOUSE_INSIDE.row;
@@ -600,15 +667,35 @@ function resetRound()
 			release: Math.max(config.release - (level - 1), 0),
 			scatter: config.scatter,
 			frightened: false,
+			controller: 'ai',
+			next: null,
 			acc: 0
 		};
 	});
+
+	// Modo inverso: só o fantasma escolhido, controlado pelo jogador, começando fora da casa
+	if (isInverse()) {
+		var chosen = ghosts.filter(function (ghost) { return ghost.id == playerGhost; })[0];
+
+		chosen.x = HOUSE_EXIT.col * TILE;
+		chosen.y = HOUSE_EXIT.row * TILE;
+		chosen.dir = 'left';
+		chosen.state = 'active';
+		chosen.controller = 'player';
+		ghosts = [chosen];
+	}
+
+	// O jogador controla o Pacman (clássico), o fantasma (inverso) ou ninguém (demo)
+	player = isInverse() ? ghosts[0] : pacman.controller == 'player' ? pacman : null;
+	teleport = null;
 
 	roundTime = 0;
 	modeIndex = 0;
 	modeTimer = 0;
 	frightenedTimer = 0;
 	pacmanElement.classList.remove('dying');
+
+	PacmanAI.reset();
 }
 
 function newGame()
@@ -623,6 +710,7 @@ function newGame()
 
 	resetDots();
 	resetRound();
+	resetAbility();
 	renderLives();
 
 	setPhase('ready', 2);
@@ -645,6 +733,18 @@ function update()
 		case 'playing':
 			roundTime += DT;
 
+			if (pacman.controller == 'ai') {
+				PacmanAI.observe();
+			}
+
+			if (isInverse()) {
+				updateAbilities();
+
+				if (demo) {
+					driveGhostBot();
+				}
+			}
+
 			updateModes();
 			movePacman();
 			ghosts.forEach(moveGhost);
@@ -658,7 +758,11 @@ function update()
 				lives--;
 				renderLives();
 
-				if (lives == 0) {
+				if (lives == 0 && isInverse()) {
+					// Modo inverso: Pacman sem vidas é a vitória do jogador, com bônus pelas pastilhas que sobraram
+					addInverseScore(dotsLeft * DOT_BONUS);
+					setPhase('levelclear', 2);
+				} else if (lives == 0) {
 					setPhase('gameover', 2);
 				} else {
 					resetRound();
@@ -672,6 +776,12 @@ function update()
 
 			if (phaseTimer <= 0) {
 				level++;
+
+				// Modo inverso: o Pacman volta com todas as vidas
+				if (isInverse()) {
+					lives = 3;
+				}
+
 				resetDots();
 				resetRound();
 				renderLives();
@@ -685,7 +795,13 @@ function update()
 
 			if (phaseTimer <= 0 && !gameOverShown) {
 				gameOverShown = true;
-				showGameOver();
+
+				// Na demonstração recomeça sozinho
+				if (demo) {
+					newGame();
+				} else {
+					showGameOver();
+				}
 			}
 			break;
 	}
@@ -718,6 +834,7 @@ let scoreElement;
 let highscoreElement;
 let levelElement;
 let livesElement;
+let labelElement;
 
 function place(element, x, y)
 {
@@ -738,7 +855,8 @@ function draw()
 
 	pacmanElement.classList.toggle('stopped', !pacman.moving);
 	pacmanElement.classList.toggle('dying', phase == 'dying' && phaseTimer < 1);
-	pacmanElement.style.visibility = phase == 'gameover' ? 'hidden' : 'visible';
+	// Some no fim de jogo e, no modo inverso, depois de capturado na última vida
+	pacmanElement.style.visibility = phase == 'gameover' || (phase == 'levelclear' && isInverse()) ? 'hidden' : 'visible';
 
 	var flash = frightenedTimer < 2 && Math.floor(frightenedTimer * 4) % 2 == 0;
 
@@ -756,17 +874,36 @@ function draw()
 
 	board.classList.toggle('flash', phase == 'levelclear');
 
-	message.textContent = phase == 'ready' ? 'READY!' : phase == 'gameover' ? 'GAME  OVER' : '';
+	// Fantasmas fora da partida (modo inverso) ficam escondidos
+	ghostElements.forEach(function (element) {
+		if (!ghosts.some(function (ghost) { return ghost.el == element; })) {
+			element.style.visibility = 'hidden';
+		}
+	});
+
+	renderAbility();
+
+	message.textContent = phase == 'ready' ? 'READY!' : phase == 'gameover' ? 'GAME  OVER' : phase == 'levelclear' && isInverse() ? 'VITÓRIA!' : '';
 	message.classList.toggle('gameover', phase == 'gameover');
 
 	scoreElement.textContent = score > 0 ? score : '00';
+	labelElement.textContent = isInverse() ? playerGhost.toUpperCase() : '1UP';
 	highscoreElement.textContent = highscore > 0 ? highscore : '00';
-	levelElement.textContent = 'LEVEL ' + level;
+	levelElement.textContent = (demo ? 'DEMO  ' : '') + 'LEVEL ' + level;
 }
 
 function renderLives()
 {
 	livesElement.innerHTML = '';
+
+	// Modo inverso: as 3 vidas do Pacman são os alvos; cada captura apaga uma
+	if (isInverse()) {
+		for (var j = 0; j < 3; j++) {
+			livesElement.appendChild(createSprite('pacman life' + (j >= lives ? ' captured' : '')));
+		}
+
+		return;
+	}
 
 	// Mostra as vidas de reserva (a atual está em jogo)
 	for (var i = 1; i < lives; i++) {
@@ -777,10 +914,16 @@ function renderLives()
 /**
  * Recorde salvo no navegador
 **/
+// Cada modo tem o seu recorde
+function highscoreKey()
+{
+	return isInverse() ? 'pacman.highscore.inverse' : 'pacman.highscore';
+}
+
 function loadHighscore()
 {
 	try {
-		return parseInt(localStorage.getItem('pacman.highscore'), 10) || 0;
+		return parseInt(localStorage.getItem(highscoreKey()), 10) || 0;
 	} catch (e) {
 		return 0;
 	}
@@ -789,7 +932,7 @@ function loadHighscore()
 function saveHighscore()
 {
 	try {
-		localStorage.setItem('pacman.highscore', highscore);
+		localStorage.setItem(highscoreKey(), highscore);
 	} catch (e) {
 		// Sem localStorage o recorde vale só para esta sessão
 	}
@@ -800,8 +943,8 @@ function saveHighscore()
 **/
 function handleInput(dir)
 {
-	if (running && phase != 'gameover') {
-		pacman.next = dir;
+	if (running && player && !demo && phase != 'gameover') {
+		player.next = dir;
 	}
 }
 
@@ -921,6 +1064,7 @@ function init()
 	highscoreElement = document.getElementById('highscore');
 	levelElement = document.getElementById('level');
 	livesElement = document.getElementById('lives');
+	labelElement = document.getElementById('label-1up');
 
 	buildBoard();
 
@@ -934,6 +1078,8 @@ function init()
 	message = document.createElement('div');
 	message.className = 'message';
 	board.appendChild(message);
+
+	initInverse();
 
 	highscore = loadHighscore();
 
