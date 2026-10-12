@@ -6,6 +6,7 @@
 .pacman {
 	/* float: left; */
 	position: absolute;
+	box-sizing: content-box;
 	width: 28px;
 	height: 28px;
 	padding-top: 1px;
@@ -206,4 +207,29 @@
 		opacity: 1;
 		filter: alpha(opacity=100);
 	}
+}
+
+/* Parado: a boca para de mastigar */
+.pacman.stopped > div {
+	animation-play-state: paused;
+}
+
+/* Morte */
+.pacman.dying {
+	animation: die 1s ease-in forwards;
+}
+
+@keyframes die {
+	to {
+		scale: 0;
+	}
+}
+
+/* Ícones de vidas no rodapé */
+.pacman.life {
+	position: static;
+}
+
+.pacman.life > div {
+	animation: none;
 }
